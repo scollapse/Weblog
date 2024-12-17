@@ -1,11 +1,17 @@
 package per.stu.weblog.web.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import per.stu.weblog.common.aspect.ApiOperationLog;
 import per.stu.weblog.web.model.User;
+import org.springframework.validation.FieldError;
+
+import java.util.stream.Collectors;
 
 /**
  * 测试控制器
@@ -19,9 +25,31 @@ import per.stu.weblog.web.model.User;
 @Slf4j
 public class TestController {
 
+
+
+    /**
+     * create by: syl
+     * description: 测试接口
+     * create time: 2024/12/17 14:56
+     * @param user
+     * @return @return per.stu.weblog.web.model.User
+     * //BindingResult : 验证的结果对象，其中包含所有验证错误信息
+     */
     @PostMapping("/test")
     @ApiOperationLog(description = "测试接口")
-    public User test(@RequestBody User user) {
-        return user;
+    public ResponseEntity<String> test(@RequestBody @Validated User user, BindingResult bindingResult) {
+        // 是否存在校验错误
+        if (bindingResult.hasErrors()) {
+            // 获取校验不通过字段的提示信息
+            String errorMsg = bindingResult.getFieldErrors()
+                    .stream()
+                    .map(FieldError::getDefaultMessage)
+                    .collect(Collectors.joining(", "));
+
+            return ResponseEntity.badRequest().body(errorMsg);
+        }
+        // 返参
+        return ResponseEntity.ok("参数没有任何问题");
     }
+
 }
