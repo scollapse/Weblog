@@ -1,7 +1,13 @@
 spring:
   profiles:
     active: dev
+  jackson:
+    # 设置后台返参，字段为null，则不返回
+    default-property-inclusion: non_null
+    # 设置日期格式
+    date-format: yyyy-MM-dd HH:mm:ss
 
 server:
   port: 8080
+
 
