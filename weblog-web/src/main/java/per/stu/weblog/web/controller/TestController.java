@@ -1,5 +1,7 @@
 package per.stu.weblog.web.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,7 @@ import per.stu.weblog.web.model.User;
  */
 @RestController
 @Slf4j
+@Api(tags = "测试接口")
 public class TestController {
 
 
@@ -35,6 +38,7 @@ public class TestController {
      */
     @PostMapping("/test")
     @ApiOperationLog(description = "测试接口")
+    @ApiOperation(value = "测试接口", notes = "测试接口")
     public Response test(@RequestBody @Validated User user) {
         // 返参
         return Response.success(user);
@@ -49,6 +53,7 @@ public class TestController {
      */
     @PostMapping("/testBizException")
     @ApiOperationLog(description = "测试业务异常接口")
+    @ApiOperation(value = "测试业务异常接口", notes = "测试业务异常接口")
     public Response testBizException(@RequestBody @Validated User user ) {
        // 手动抛出异常
         throw new BizException(ResponseCodeEnum.PRODUCT_NOT_FOUND);
@@ -56,6 +61,7 @@ public class TestController {
 
     @PostMapping("/testGlobalException")
     @ApiOperationLog(description = "测试全局异常接口")
+    @ApiOperation(value = "测试全局异常接口", notes = "测试全局异常接口")
     public Response testGlobalException(@RequestBody @Validated User user ) {
         int i = 1 / 0;
         return Response.success();

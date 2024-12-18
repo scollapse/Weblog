@@ -8,6 +8,6 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
 
 server:
-  port: 8080
+  port: 8086
 
 
