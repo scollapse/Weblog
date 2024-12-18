@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * 测试 用户实体类
@@ -40,4 +43,16 @@ public class User {
     @Max(value = 100, message = "年龄必须小于等于100")
     @ApiModelProperty(value = "年龄", required = true)
     private Integer age;
+
+    // 创建时间
+    @ApiModelProperty(value = "创建时间", required = true)
+    private LocalDateTime createTime;
+
+    // 更新日期
+    @ApiModelProperty(value = "更新日期", required = true)
+    private LocalDate updateDate;
+
+    // 时间
+    @ApiModelProperty(value = "时间", required = true)
+    private LocalTime time;
 }

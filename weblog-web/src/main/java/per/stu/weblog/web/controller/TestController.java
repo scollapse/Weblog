@@ -13,6 +13,10 @@ import per.stu.weblog.common.excption.BizException;
 import per.stu.weblog.common.utils.Response;
 import per.stu.weblog.web.model.User;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 /**
  * 测试控制器
  *
@@ -41,6 +45,9 @@ public class TestController {
     @ApiOperation(value = "测试接口", notes = "测试接口")
     public Response test(@RequestBody @Validated User user) {
         // 返参
+        user.setCreateTime(LocalDateTime.now());
+        user.setUpdateDate(LocalDate.now());
+        user.setTime(LocalTime.now());
         return Response.success(user);
     }
 
