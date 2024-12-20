@@ -21,7 +21,7 @@ class WeblogWebApplicationTests {
     void insertTest() {
         // 构建数据库实体类
         UserDO userDO = UserDO.builder()
-                .username("犬小哈")
+                .username("犬小哈1")
                 .password("123456")
                 .createTime(new Date())
                 .updateTime(new Date())
