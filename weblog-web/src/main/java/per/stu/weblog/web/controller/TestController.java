@@ -40,7 +40,7 @@ public class TestController {
      * @return @return per.stu.weblog.web.model.User
      *
      */
-    @PostMapping("/test")
+    @PostMapping("/admin/test")
     @ApiOperationLog(description = "测试接口")
     @ApiOperation(value = "测试接口", notes = "测试接口")
     public Response test(@RequestBody @Validated User user) {
