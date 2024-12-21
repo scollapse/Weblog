@@ -26,31 +26,33 @@
 
     <dependencies>
         <dependency>
+            <groupId>per.stu</groupId>
+            <artifactId>weblog-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>per.stu</groupId>
+            <artifactId>weblog-jwt</artifactId>
+        </dependency>
+
+        <!-- 免写冗余的 Java 样板式代码 -->
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- 单元测试 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>per.stu</groupId>
-            <artifactId>weblog-common</artifactId>
-        </dependency>
-
         <!-- knife4j -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>per.stu</groupId>
-            <artifactId>weblog-jwt</artifactId>
         </dependency>
 
         <!-- Spring Security -->

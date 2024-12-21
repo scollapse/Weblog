@@ -5,4 +5,9 @@ spring:
 server:
   port: 8086
 
+jwt:
+  # 签发人
+  issuer: collapse
+  # 秘钥
+  secret: rYLcP4fyIB7d+VD15v/WekdWtPQ1SPFro1BOUa61Feao0xee2eU8K2U48o0q0+sRRNd72IshxLPIuc7I8Ln5NQ==
 
