@@ -27,7 +27,9 @@ public enum  ResponseCodeEnum implements BaseExceptionInterface {
 
     USERNAME_OR_PWD_ERROR("20001", "用户名或密码错误"),
 
-    UNAUTHORIZED("20002", "无权限访问，请先登录");
+    UNAUTHORIZED("20002", "无权限访问，请先登录"),
+
+    ACCESS_DENIED("20003","账号权限不足" );
 
     private String errorCode;
 

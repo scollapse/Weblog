@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import per.stu.weblog.common.enums.ResponseCodeEnum;
 import per.stu.weblog.common.utils.Response;
-
+import org.springframework.security.access.AccessDeniedException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
@@ -74,5 +74,12 @@ public class GlobalExceptionHandler {
         String errorMessage = sb.toString();
         log.warn("{} request fail, errorCode: {}, errorMessage: {}", request.getRequestURI(), errCode, errorMessage);
         return Response.fail(errCode, errorMessage);
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public void throwAccessDeniedException(AccessDeniedException e) throws AccessDeniedException {
+        // 捕获到鉴权失败异常，主动抛出，交给 RestAccessDeniedHandler 去处理
+        log.info("============= 捕获到 AccessDeniedException");
+        throw e;
     }
 }

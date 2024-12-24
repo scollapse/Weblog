@@ -4,6 +4,7 @@ package per.stu.weblog.admin.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,9 +18,12 @@ import per.stu.weblog.jwt.handler.RestAuthenticationEntryPoint;
 /**
  * @author Stu
  * @date 2021/07/16
+ * @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+ * 这是一个 Spring Security 注解，用于启用方法级别的安全性设置。prePostEnabled = true 表示启用 @PreAuthorize 和 @PostAuthorize 注解，securedEnabled = true 表示启用 @Secured 注解。这意味着您可以在方法级别使用这些注解来定义访问控制规则
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
