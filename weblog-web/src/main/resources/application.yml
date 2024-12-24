@@ -10,4 +10,11 @@ jwt:
   issuer: collapse
   # 秘钥
   secret: rYLcP4fyIB7d+VD15v/WekdWtPQ1SPFro1BOUa61Feao0xee2eU8K2U48o0q0+sRRNd72IshxLPIuc7I8Ln5NQ==
+  # token 过期时间（单位：分钟） 24*60
+  tokenExpireTime: 1440
+  # token 请求头中的 key 值
+  tokenHeaderKey: Authorization
+  # token 请求头中的 value 值前缀
+  tokenPrefix: Bearer
+
 
