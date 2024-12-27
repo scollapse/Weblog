@@ -30,21 +30,21 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
         ObjectMapper mapper = new ObjectMapper();
         // 解析提交的 JSON 数据
         JsonNode jsonNode = mapper.readTree(request.getInputStream());
-        JsonNode usernameNode = jsonNode.get("username");
+        JsonNode emailNode = jsonNode.get("email");
         JsonNode passwordNode =  jsonNode.get("password");
 
-        // 判断用户名、密码是否为空
-        if (Objects.isNull(usernameNode) || Objects.isNull(passwordNode)
-                || StringUtils.isBlank(usernameNode.textValue()) || StringUtils.isBlank(passwordNode.textValue())) {
+        // 判断邮箱、密码是否为空
+        if (Objects.isNull(emailNode) || Objects.isNull(passwordNode)
+                || StringUtils.isBlank(emailNode.textValue()) || StringUtils.isBlank(passwordNode.textValue())) {
             throw new UsernameOrPasswordNullException("用户名或密码不能为空");
         }
 
-        String username = usernameNode.textValue();
+        String email = emailNode.textValue();
         String password = passwordNode.textValue();
 
-        // 将用户名、密码封装到 Token 中
+        // 将邮箱、密码封装到 Token 中
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
-                = new UsernamePasswordAuthenticationToken(username, password);
+                = new UsernamePasswordAuthenticationToken(email, password);
         return getAuthenticationManager().authenticate(usernamePasswordAuthenticationToken);
     }
 }
