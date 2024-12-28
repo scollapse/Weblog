@@ -46,7 +46,10 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
     USER_ROLE_CANNOT_UPDATE("20010", "用户角色不能更新"),
 
     USER_ROLE_CANNOT_CREATE("20011", "用户角色不能创建"),
-    ;
+
+    CATEGORY_NAME_EXIST( "20012", "分类名称已存在,请勿重复创建"),
+
+    CATEGORY_ADD_ERROR("20013","分类添加失败" );
 
     private String errorCode;
 
