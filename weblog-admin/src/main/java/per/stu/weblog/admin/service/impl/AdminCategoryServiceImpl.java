@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import per.stu.weblog.admin.model.vo.category.AddCategoryReqVO;
+import per.stu.weblog.admin.model.vo.category.DeleteCategoryReqVO;
 import per.stu.weblog.admin.model.vo.category.FindCategoryPageListReqVO;
 import per.stu.weblog.admin.model.vo.category.FindCategoryPageListResVO;
 import per.stu.weblog.admin.service.AdminCategoryService;
@@ -102,5 +103,22 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
             ).collect(Collectors.toList());
         }
         return PageResponse.success(categoryDOPage,vos);
+    }
+
+
+    /**
+     * 删除分类
+     * @param deleteCategoryReqVO
+     * @return
+     */
+    @Override
+    public Response deleteCategory(DeleteCategoryReqVO deleteCategoryReqVO) {
+        // 分类 ID
+        Long categoryId = deleteCategoryReqVO.getId();
+
+        // 删除分类
+        categoryMapper.deleteById(categoryId);
+
+        return Response.success();
     }
 }

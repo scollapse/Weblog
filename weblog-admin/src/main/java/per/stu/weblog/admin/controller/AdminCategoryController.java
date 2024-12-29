@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import per.stu.weblog.admin.model.vo.category.AddCategoryReqVO;
+import per.stu.weblog.admin.model.vo.category.DeleteCategoryReqVO;
 import per.stu.weblog.admin.model.vo.category.FindCategoryPageListReqVO;
 import per.stu.weblog.admin.service.AdminCategoryService;
 import per.stu.weblog.common.aspect.ApiOperationLog;
@@ -36,5 +37,13 @@ public class AdminCategoryController {
     public PageResponse findCategoryList(@RequestBody @Validated FindCategoryPageListReqVO findCategoryPageListReqVO) {
         return categoryService.findCategoryList(findCategoryPageListReqVO);
     }
+
+    @PostMapping("/category/delete")
+    @ApiOperation(value = "删除分类")
+    @ApiOperationLog(description = "删除分类")
+    public Response deleteCategory(@RequestBody @Validated DeleteCategoryReqVO deleteCategoryReqVO) {
+        return categoryService.deleteCategory(deleteCategoryReqVO);
+    }
+
 
 }

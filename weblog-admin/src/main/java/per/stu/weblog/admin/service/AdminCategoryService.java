@@ -1,6 +1,7 @@
 package per.stu.weblog.admin.service;
 
 import per.stu.weblog.admin.model.vo.category.AddCategoryReqVO;
+import per.stu.weblog.admin.model.vo.category.DeleteCategoryReqVO;
 import per.stu.weblog.admin.model.vo.category.FindCategoryPageListReqVO;
 import per.stu.weblog.common.utils.PageResponse;
 import per.stu.weblog.common.utils.Response;
@@ -20,4 +21,12 @@ public interface AdminCategoryService {
      * @return
      */
     PageResponse findCategoryList(FindCategoryPageListReqVO findCategoryPageListReqVO);
+
+
+    /**
+     * 删除分类
+     * @param deleteCategoryReqVO
+     * @return
+     */
+    Response deleteCategory(DeleteCategoryReqVO deleteCategoryReqVO);
 }
