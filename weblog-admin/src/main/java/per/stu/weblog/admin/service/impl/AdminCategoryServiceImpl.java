@@ -1,18 +1,28 @@
 package per.stu.weblog.admin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import per.stu.weblog.admin.model.vo.category.AddCategoryReqVO;
+import per.stu.weblog.admin.model.vo.category.FindCategoryPageListReqVO;
+import per.stu.weblog.admin.model.vo.category.FindCategoryPageListResVO;
 import per.stu.weblog.admin.service.AdminCategoryService;
 import per.stu.weblog.common.domain.dos.CategoryDO;
 import per.stu.weblog.common.domain.mapper.CategoryMapper;
 import per.stu.weblog.common.enums.ResponseCodeEnum;
 import per.stu.weblog.common.excption.BizException;
+import per.stu.weblog.common.utils.PageResponse;
 import per.stu.weblog.common.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -50,5 +60,47 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
             throw new BizException(ResponseCodeEnum.CATEGORY_ADD_ERROR);
         }
         return Response.success();
+    }
+
+    /**
+     * 分页查询分类列表
+     * @param findCategoryPageListReqVO
+     * @return
+     */
+    @Override
+    public PageResponse findCategoryList(FindCategoryPageListReqVO findCategoryPageListReqVO) {
+        // 获取分页参数
+        Long  pageNum = findCategoryPageListReqVO.getCurrent();
+        Long  pageSize = findCategoryPageListReqVO.getSize();
+        // 分页对象(查询第几页、每页多少数据)
+        Page<CategoryDO> page = new Page<>(pageNum, pageSize);
+
+        // 查询条件
+        LambdaQueryWrapper<CategoryDO> queryWrapper = new LambdaQueryWrapper<>();
+        String name = findCategoryPageListReqVO.getName();
+        LocalDate startDate = findCategoryPageListReqVO.getStartDate();
+        LocalDate endDate = findCategoryPageListReqVO.getEndDate();
+        queryWrapper
+                .like(StringUtils.isNotBlank(name), CategoryDO::getName, name.trim())
+                .ge(Objects.nonNull(startDate), CategoryDO::getCreateTime, startDate)
+                .le(Objects.nonNull(endDate), CategoryDO::getCreateTime, endDate)
+                .orderByDesc(CategoryDO::getCreateTime);
+
+        // 执行分页查询
+        Page<CategoryDO> categoryDOPage = categoryMapper.selectPage(page, queryWrapper);
+        List<CategoryDO> records = categoryDOPage.getRecords();
+
+        //DO转VO
+        List<FindCategoryPageListResVO> vos = null;
+        if (CollectionUtils.isNotEmpty(records)){
+            vos = records.stream().map(record ->
+                FindCategoryPageListResVO.builder()
+               .id(record.getId())
+               .name(record.getName())
+               .createTime(record.getCreateTime())
+               .build()
+            ).collect(Collectors.toList());
+        }
+        return PageResponse.success(categoryDOPage,vos);
     }
 }

@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import per.stu.weblog.admin.model.vo.category.AddCategoryReqVO;
+import per.stu.weblog.admin.model.vo.category.FindCategoryPageListReqVO;
 import per.stu.weblog.admin.service.AdminCategoryService;
 import per.stu.weblog.common.aspect.ApiOperationLog;
+import per.stu.weblog.common.utils.PageResponse;
 import per.stu.weblog.common.utils.Response;
 
 @RestController
@@ -26,6 +28,13 @@ public class AdminCategoryController {
     @ApiOperationLog(description = "添加分类")
     public Response addCategory(@RequestBody @Validated AddCategoryReqVO addCategoryReqVO) {
         return categoryService.addCategory(addCategoryReqVO);
+    }
+
+    @PostMapping("/category/list")
+    @ApiOperation(value = "分类分页数据获取")
+    @ApiOperationLog(description = "分类分页数据获取")
+    public PageResponse findCategoryList(@RequestBody @Validated FindCategoryPageListReqVO findCategoryPageListReqVO) {
+        return categoryService.findCategoryList(findCategoryPageListReqVO);
     }
 
 }
