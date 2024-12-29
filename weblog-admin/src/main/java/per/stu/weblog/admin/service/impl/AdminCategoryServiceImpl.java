@@ -15,6 +15,7 @@ import per.stu.weblog.common.domain.dos.CategoryDO;
 import per.stu.weblog.common.domain.mapper.CategoryMapper;
 import per.stu.weblog.common.enums.ResponseCodeEnum;
 import per.stu.weblog.common.excption.BizException;
+import per.stu.weblog.common.model.vo.SelectResVO;
 import per.stu.weblog.common.utils.PageResponse;
 import per.stu.weblog.common.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,5 +121,28 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
         categoryMapper.deleteById(categoryId);
 
         return Response.success();
+    }
+
+    /**
+     * 查询分类下拉列表
+     * @return
+     */
+    @Override
+    public Response findCategorySelectList() {
+        // 查询所有分类
+        List<CategoryDO> categoryDOS = categoryMapper.selectList(null);
+        // DO 转 VO
+        List<SelectResVO> selectRspVOS = null;
+        // 如果分类数据不为空
+        if (!CollectionUtils.isEmpty(categoryDOS)) {
+            // 将分类 ID 作为 Value 值，将分类名称作为 label 展示
+            selectRspVOS = categoryDOS.stream()
+                    .map(categoryDO -> SelectResVO.builder()
+                            .label(categoryDO.getName())
+                            .value(categoryDO.getId())
+                            .build())
+                    .collect(Collectors.toList());
+        }
+        return Response.success(selectRspVOS);
     }
 }
