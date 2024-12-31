@@ -21,7 +21,7 @@ import per.stu.weblog.common.utils.Response;
  **/
 @RestController
 @RequestMapping("/admin/user")
-@Api(tags = "后台-用户管理")
+@Api(tags = "后台用户管理")
 public class AdminUserController {
 
     @Autowired

@@ -52,38 +52,45 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        // 从请求头中获取token
-        String header = request.getHeader(tokenHeaderKey);
 
-        // 判断 vlaue 中是否以 Bearer 开头
-        if (null != header && header.startsWith(tokenPrefix)) {
-            String token = header.substring(7);
-            log.info("token:{}", token);
-            // 判空
-            if (StringUtils.isNoneBlank(token)){
-                try {
-                    // 校验 token 是否可用
-                    jwtTokenHelper.validateToken(token);
-                } catch (SignatureException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
-                    // token 校验失败
-                    authenticationEntryPoint.commence(request, response, new AuthenticationServiceException("Token 不可用"));
-                    return;
-                }catch (ExpiredJwtException e){
-                    // token 过期，返回 401 状态码
-                    authenticationEntryPoint.commence(request, response, new AuthenticationServiceException("Token 过期"));
-                    return;
-                }
-                // token 校验成功，获取用户信息
-                String username = jwtTokenHelper.getUsernameFromToken(token);
-                log.info("username:{}", username);
-                if (StringUtils.isNoneBlank(username) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())){
-                    // 根据用户名获取用户详情
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                    // 保存用户信息到 SecurityContextHolder
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    // 放入安全上下文
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+        //先判断请求是否是以/admin开头，如果是则检查 token
+        String uri = request.getRequestURI();
+        if (uri.startsWith("/admin")) {
+
+            // 从请求头中获取token
+            String header = request.getHeader(tokenHeaderKey);
+
+            // 判断 vlaue 中是否以 Bearer 开头
+            if (null != header && header.startsWith(tokenPrefix)) {
+                String token = header.substring(7);
+                log.info("token:{}", token);
+                // 判空
+                if (StringUtils.isNoneBlank(token)) {
+                    try {
+                        // 校验 token 是否可用
+                        jwtTokenHelper.validateToken(token);
+                    } catch (SignatureException | MalformedJwtException | UnsupportedJwtException |
+                             IllegalArgumentException e) {
+                        // token 校验失败
+                        authenticationEntryPoint.commence(request, response, new AuthenticationServiceException("Token 不可用"));
+                        return;
+                    } catch (ExpiredJwtException e) {
+                        // token 过期，返回 401 状态码
+                        authenticationEntryPoint.commence(request, response, new AuthenticationServiceException("Token 过期"));
+                        return;
+                    }
+                    // token 校验成功，获取用户信息
+                    String username = jwtTokenHelper.getUsernameFromToken(token);
+                    log.info("username:{}", username);
+                    if (StringUtils.isNoneBlank(username) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {
+                        // 根据用户名获取用户详情
+                        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                        // 保存用户信息到 SecurityContextHolder
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        // 放入安全上下文
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    }
                 }
             }
         }
