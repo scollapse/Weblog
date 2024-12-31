@@ -1,10 +1,9 @@
 package per.stu.weblog.admin.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import per.stu.weblog.admin.model.vo.category.AddCategoryReqVO;
 import per.stu.weblog.admin.model.vo.category.DeleteCategoryReqVO;
@@ -18,7 +17,6 @@ import per.stu.weblog.common.excption.BizException;
 import per.stu.weblog.common.model.vo.SelectResVO;
 import per.stu.weblog.common.utils.PageResponse;
 import per.stu.weblog.common.utils.Response;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -74,22 +72,10 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
         // 获取分页参数
         Long  pageNum = findCategoryPageListReqVO.getCurrent();
         Long  pageSize = findCategoryPageListReqVO.getSize();
-        // 分页对象(查询第几页、每页多少数据)
-        Page<CategoryDO> page = new Page<>(pageNum, pageSize);
-
-        // 查询条件
-        LambdaQueryWrapper<CategoryDO> queryWrapper = new LambdaQueryWrapper<>();
         String name = findCategoryPageListReqVO.getName();
         LocalDate startDate = findCategoryPageListReqVO.getStartDate();
         LocalDate endDate = findCategoryPageListReqVO.getEndDate();
-        queryWrapper
-                .like(StringUtils.isNotBlank(name), CategoryDO::getName, name.trim())
-                .ge(Objects.nonNull(startDate), CategoryDO::getCreateTime, startDate)
-                .le(Objects.nonNull(endDate), CategoryDO::getCreateTime, endDate)
-                .orderByDesc(CategoryDO::getCreateTime);
-
-        // 执行分页查询
-        Page<CategoryDO> categoryDOPage = categoryMapper.selectPage(page, queryWrapper);
+        Page<CategoryDO> categoryDOPage = categoryMapper.findCategoryList(pageNum, pageSize, name, startDate, endDate);
         List<CategoryDO> records = categoryDOPage.getRecords();
 
         //DO转VO
@@ -118,9 +104,9 @@ public class AdminCategoryServiceImpl implements AdminCategoryService {
         Long categoryId = deleteCategoryReqVO.getId();
 
         // 删除分类
-        categoryMapper.deleteById(categoryId);
+        int count = categoryMapper.deleteById(categoryId);
 
-        return Response.success();
+        return count > 0 ? Response.success() : Response.fail(ResponseCodeEnum.CATEGORY_IS_NOT_EXIST);
     }
 
     /**

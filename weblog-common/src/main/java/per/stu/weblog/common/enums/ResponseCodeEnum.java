@@ -49,7 +49,15 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
 
     CATEGORY_NAME_EXIST( "20012", "分类名称已存在,请勿重复创建"),
 
-    CATEGORY_ADD_ERROR("20013","分类添加失败" );
+    CATEGORY_ADD_ERROR("20013","分类添加失败" ),
+
+    CATEGORY_IS_NOT_EXIST( "20014", "分类不存在"),
+
+    TAG_IS_NOT_EXIST( "20015", "标签不存在") ,
+
+
+
+    ;
 
     private String errorCode;
 
