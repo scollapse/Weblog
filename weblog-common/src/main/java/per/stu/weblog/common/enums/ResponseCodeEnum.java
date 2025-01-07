@@ -56,7 +56,7 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
     TAG_IS_NOT_EXIST( "20015", "标签不存在") ,
 
 
-
+    FILE_UPLOAD_FAILED( "20016", "文件上传失败"),
     ;
 
     private String errorCode;

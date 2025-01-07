@@ -18,3 +18,11 @@ spring:
       name: admin
       password: admin123
 
+#=================================================================
+# minio
+#=================================================================
+minio:
+  endpoint: http://127.0.0.1:9000
+  accessKey: shenyunlei
+  secretKey: 12345678
+  bucketName: weblog
