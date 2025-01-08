@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-<!--    father pom -->
+    <!--    father pom -->
     <parent>
         <groupId>per.stu</groupId>
         <artifactId>weblog</artifactId>
@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-<!--    project information -->
+    <!--    project information -->
     <groupId>per.stu</groupId>
     <artifactId>weblog-web</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -72,13 +72,18 @@
     </dependencies>
 
 
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
         </plugins>
     </build>
 
