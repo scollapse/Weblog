@@ -61,5 +61,13 @@ public class AdminArticleController {
     }
 
 
+    @PostMapping("/update")
+    @ApiOperation(value = "更新文章")
+    @ApiOperationLog(description = "更新文章")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Response updateArticle(@RequestBody @Validated UpdateArticleReqVO updateArticleReqVO) {
+        return articleService.updateArticle(updateArticleReqVO);
+    }
+
 }
 

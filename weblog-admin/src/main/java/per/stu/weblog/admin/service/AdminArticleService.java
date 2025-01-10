@@ -1,5 +1,6 @@
 package per.stu.weblog.admin.service;
 
+import per.stu.weblog.admin.controller.UpdateArticleReqVO;
 import per.stu.weblog.admin.model.vo.article.DeleteArticleReqVO;
 import per.stu.weblog.admin.model.vo.article.FindArticleDetailReqVO;
 import per.stu.weblog.admin.model.vo.article.FindArticlePageListReqVO;
@@ -37,4 +38,11 @@ public interface AdminArticleService {
      * @return
      */
     Response findArticleDetail(FindArticleDetailReqVO findArticleDetailReqVO);
+
+    /**
+     * 更新文章
+     * @param updateArticleReqVO
+     * @return
+     */
+    Response updateArticle(UpdateArticleReqVO updateArticleReqVO);
 }
