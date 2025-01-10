@@ -57,6 +57,7 @@ public enum ResponseCodeEnum implements BaseExceptionInterface {
 
 
     FILE_UPLOAD_FAILED( "20016", "文件上传失败"),
+    CATEGORY_NOT_EXISTED( "20017", "分类不存在"),
     ;
 
     private String errorCode;
