@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import per.stu.weblog.admin.model.vo.article.DeleteArticleReqVO;
 import per.stu.weblog.admin.model.vo.article.PublishArticleReqVO;
 import per.stu.weblog.admin.service.AdminArticleService;
 import per.stu.weblog.common.aspect.ApiOperationLog;
@@ -33,6 +34,14 @@ public class AdminArticleController {
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Response publishArticle(@RequestBody @Validated PublishArticleReqVO publishArticleReqVO) {
         return articleService.publishArticle(publishArticleReqVO);
+    }
+
+    @PostMapping("/delete")
+    @ApiOperation(value = "文章删除")
+    @ApiOperationLog(description = "文章删除")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Response deleteArticle(@RequestBody @Validated DeleteArticleReqVO deleteArticleReqVO) {
+        return articleService.deleteArticle(deleteArticleReqVO);
     }
 
 }

@@ -1,5 +1,6 @@
 package per.stu.weblog.admin.service;
 
+import per.stu.weblog.admin.model.vo.article.DeleteArticleReqVO;
 import per.stu.weblog.admin.model.vo.article.PublishArticleReqVO;
 import per.stu.weblog.common.utils.Response;
 
@@ -11,4 +12,12 @@ public interface AdminArticleService {
      * @return
      */
     Response publishArticle(PublishArticleReqVO publishArticleReqVO);
+
+
+    /**
+     * 删除文章
+     * @param deleteArticleReqVO
+     * @return
+     */
+    Response deleteArticle(DeleteArticleReqVO deleteArticleReqVO);
 }
