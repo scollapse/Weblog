@@ -8,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import per.stu.weblog.admin.model.vo.article.DeleteArticleReqVO;
-import per.stu.weblog.admin.model.vo.article.FindArticlePageListReqVO;
-import per.stu.weblog.admin.model.vo.article.FindArticlePageListRspVO;
-import per.stu.weblog.admin.model.vo.article.PublishArticleReqVO;
+import per.stu.weblog.admin.convert.ArticleDetailConvert;
+import per.stu.weblog.admin.model.vo.article.*;
 import per.stu.weblog.admin.service.AdminArticleService;
 import per.stu.weblog.common.domain.dos.*;
 import per.stu.weblog.common.domain.mapper.*;
@@ -241,6 +239,46 @@ public class AdminArticleServiceImpl implements AdminArticleService {
 
         return PageResponse.success(articleDOPage, vos);
     }
+
+    /**
+     * 查询文章详情
+     *
+     * @param findArticleDetailReqVO
+     * @return
+     */
+    @Override
+    public Response findArticleDetail(FindArticleDetailReqVO findArticleDetailReqVO) {
+        Long articleId = findArticleDetailReqVO.getId();
+
+        // 查询文章
+        ArticleDO articleDO = articleMapper.selectById(articleId);
+
+        if (Objects.isNull(articleDO)) {
+            log.warn("==> 查询的文章不存在，articleId: {}", articleId);
+            throw new BizException(ResponseCodeEnum.ARTICLE_NOT_FOUND);
+        }
+
+        // 查询文章内容
+        ArticleContentDO articleContentDO = articleContentMapper.selectByArticleId(articleId);
+
+        // 所属分类
+        ArticleCategoryRelDO articleCategoryRelDO = articleCategoryRelMapper.selectByArticleId(articleId);
+
+        // 对应标签
+        List<ArticleTagRelDO> articleTagRelDOS = articleTagRelMapper.selectByArticleId(articleId);
+
+        // 获取对应标签 ID 集合
+        List<Long> tagIds = articleTagRelDOS.stream().map(ArticleTagRelDO::getTagId).collect(Collectors.toList());
+
+        // DO 转 VO
+        FindArticleDetailRspVO vo = ArticleDetailConvert.INSTANCE.convertDO2VO(articleDO);
+        vo.setContent(articleContentDO.getContent());
+        vo.setCategoryId(articleCategoryRelDO.getCategoryId());
+        vo.setTagIds(tagIds);
+
+        return Response.success(vo);
+    }
+
 
 
 }

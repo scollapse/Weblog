@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import per.stu.weblog.admin.model.vo.article.DeleteArticleReqVO;
+import per.stu.weblog.admin.model.vo.article.FindArticleDetailReqVO;
 import per.stu.weblog.admin.model.vo.article.FindArticlePageListReqVO;
 import per.stu.weblog.admin.model.vo.article.PublishArticleReqVO;
 import per.stu.weblog.admin.service.AdminArticleService;
@@ -51,6 +52,14 @@ public class AdminArticleController {
     public Response findArticlePageList(@RequestBody @Validated FindArticlePageListReqVO findArticlePageListReqVO) {
         return articleService.findArticlePageList(findArticlePageListReqVO);
     }
+
+    @PostMapping("/detail")
+    @ApiOperation(value = "查询文章详情")
+    @ApiOperationLog(description = "查询文章详情")
+    public Response findArticleDetail(@RequestBody @Validated FindArticleDetailReqVO findArticlePageListReqVO) {
+        return articleService.findArticleDetail(findArticlePageListReqVO);
+    }
+
 
 }
 
