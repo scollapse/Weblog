@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import per.stu.weblog.admin.model.vo.article.DeleteArticleReqVO;
+import per.stu.weblog.admin.model.vo.article.FindArticlePageListReqVO;
 import per.stu.weblog.admin.model.vo.article.PublishArticleReqVO;
 import per.stu.weblog.admin.service.AdminArticleService;
 import per.stu.weblog.common.aspect.ApiOperationLog;
@@ -42,6 +43,13 @@ public class AdminArticleController {
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Response deleteArticle(@RequestBody @Validated DeleteArticleReqVO deleteArticleReqVO) {
         return articleService.deleteArticle(deleteArticleReqVO);
+    }
+
+    @PostMapping("/list")
+    @ApiOperation(value = "查询文章分页数据")
+    @ApiOperationLog(description = "查询文章分页数据")
+    public Response findArticlePageList(@RequestBody @Validated FindArticlePageListReqVO findArticlePageListReqVO) {
+        return articleService.findArticlePageList(findArticlePageListReqVO);
     }
 
 }
